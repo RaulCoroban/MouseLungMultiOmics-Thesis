@@ -1,0 +1,13 @@
+The main aim of the work is to determine which tool is more suitable to enhance the biological insight from lab-derived data in order to both serve as starting point for the research and as feedback for the wet lab.
+
+\subsection{Framework}
+The established framework allows quick information analysis. By having data available at glance, decisions are made more fluently, since the desired insight we want to focus on is build straight away.
+5.1 Implementation and accuracy
+As for DES-nA component, results often deliver a central node highly connected to the remaining set, hence we either assume the outputs cannot be reliable based on the fact that the mere nature of pathways is not to have an overall central influence, but rather an interconnected matrix, or that there’s a hidden variable which biases the graph to expand to an extended pathways.
+
+k  parameter for DEGAS sets the number of dysregulated genes that the algorithm will accept. This point can be the main bias of the procedure, since it limits the ability of building a larger more rich — and  probably entangled— graph around. Again, k is the most time-consuming parameter when estimating, which is mainly controlled by he number of iterations we use to predict it. Due to that, both can be considered as accuracy restrictors.
+
+Also, DIAMOnD work claim to might be building new disease associations whose morphology and content can be completely new. Lacking a ground truth to resolve its reliability and keeping in mind system’s complexity, any scenario can be plausible. Translated to our project could mean the \textit{de novo} derived networks can be coming up with a new unknown solution or just be completely inaccurate. 
+
+\subsection{Possible future directions}
+SigNet and MARINa can provide proper start points for DIAMOnD. Also, SigNet has a graph expansion module, which can be overlapped with DEGAS to ensure integrity.

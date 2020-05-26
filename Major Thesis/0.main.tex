@@ -1,0 +1,93 @@
+\documentclass{jot}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{subfiles}
+\usepackage{titlesec}
+\setcounter{secnumdepth}{4}
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\usepackage{microtype} % optional, for aesthetics
+\usepackage{tabularx} % nice to have
+\usepackage{booktabs} % necessary for style
+% \usepackage{graphicx}
+% \graphicspath{{./figures/}}
+% \usepackage{listings}
+% \lstset{...}
+
+% \newcommand\code[1]{\texttt{#1}}
+% \let\file\code
+
+
+%%% Article metadata
+\title{Implementation, benchmarking and application of functional analysis workflows of omics data}
+
+\runningtitle{Implementation, benchmarking and application of functional analysis workflows of omics data}
+
+\author[affiliation=orgname, nowrap] % , photo=FILE]
+    {Raul I. Coroban}
+    {is ...
+    Contact him at \email{r.coroban@student.vu.nl}}
+
+%\affiliation{orgname}{ORGANISATION}
+
+\runningauthor{R.I. Coroban}
+
+%\jotdetails{
+%    volume=V,
+%    number=N,
+%    articleno=M,
+%    year=2011,
+%    doisuffix=jot.201Y.VV.N.aN,
+%    license=ccbynd % choose from ccby, ccbynd,ccbyncnd
+%}
+
+
+\begin{document}
+
+\begin{abstract}
+This work examines lung omics analyses from a 6-month inhalation exposure study with ApoE-/- mice  and enrich them with known curated data to increase biological insight. We describe the developed pipelines that implement state-of-the-art algorithms which rely on transcriptomics data to predict upstream targets and/or derive custom pathways. All procedures produce graph visualisations that we use for algorithm selection and result interpretation. Transcriptomics data has been obtained from a PMI study \cite{Titz2020Multi-omicsSmoke} while benchmark data is retrieved from online sources \cite{Wang2020TherapeuticTherapeutics} \cite{Subramanian2017AProfiles}. After benchmarking and in-depth analysis, algorithms which predict upstream regulators based on transcriptomics outperform the de novo pathway building ones, both on time efficiency and result insight.
+\end{abstract}
+
+\keywords{omics; data analysis.}
+
+\section{Background}
+\label{section:background}
+\subfile{1.background.tex}
+
+\section{Methods}
+\label{section:methods}
+\subfile{2.methods.tex}
+
+\section{Results}
+\label{section:results}
+\subfile{3.results.tex}
+
+\section{Discussion}
+\label{section:discussion}
+\subfile{4.discussion.tex}
+
+\section{Conclusions}
+\label{section:conclusions}
+\subfile{5.conclusions.tex}
+
+\section{Acknowledgements}
+\subfile{6.acknowledgements.tex}
+
+\section{Availability}
+\subfile{7.availability.tex}
+
+\bibliographystyle{abbrv}
+\bibliography{references.bib}
+
+%\abouttheauthors
+
+%\begin{acknowledgments}
+%ACKS
+%\end{acknowledgments}
+
+\end{document}

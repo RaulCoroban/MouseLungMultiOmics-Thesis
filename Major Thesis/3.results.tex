@@ -1,0 +1,52 @@
+\subsection{Biological insight}
+\subsubsection{IUT Component}
+At the IUT component, both SigNet and MARINa deliver us with a list of seeds which we can use as a start point to initiate research. We get a ranked list of nodes which are potentially the most influent upstream individuals.
+
+An observation of the system for the specific SWITCH 4m contrast is displayed in Figure 5, where interactions for the top DE gene has been retrieved, keeping only the 50\% of the nodes that contributed to its rank rise. In this particular result, we aim to investigate the surroundings and inner interactions of CUX1. Its product is known to have a gene regulatory purpose and influence on the cell cycle. More precisely its down-regulation has been related to tumorgenesis [reference].
+
+Besides, CUX1 belongs to the top 10 ranked for SigNet in all contrasts that involve cigarette smoke (CS) in any proportion and duration (3R4F, SWITCH, CESS), as shown in Figure 6. Same happens with RELA Proto-Oncogene, as NF-KB Subunit, MYC Proto-oncogene, where we can observe the rank divergence is minor.
+
+At first sight, the information retrieved aligns with an expected outcome, i.e. since we are handling lung expression data from smoked and control cases, generally, we’d accept insight that “make sense” in this line, like the proto-oncogenes we spotted that support cancer, one of the main problems in the smoking area. However, is on biology experts to determine for which to aim to proceed, also taking account of outrageous information that might show up and diverge from the known, mainly due to the unpredictability, and hidden mechanistic when it comes to systems biology.
+
+On the other hand, on a broader view of control results, non-smoke contrasts (THS and  CHTP) suffer a more severe cut in the input, as a result of the minimum FC requirement at the Format Core. Smoke contrasts (3R4F, SWITCH and CESS) have more nodes which present DEG than their non-smoke counterparts. This leaves us with fewer start points to trigger build the graph when treating non-smoke contrasts.
+
+Entangled static networks such as Figure 5 hinder research. Due to this, an interactive version of the graph is offered alongside with the generated PNG graphs. A preview of the interactive version and the remaining results across all contrasts can be found in Suppl.Figures under Extra Insight Results.
+
+On the other hand, contrasts exposed to CS dispose of entangled contributor’s graphs. At a cutoff of 50\% of cumulative votes, node count rounded mean is 200. For the group which does not have CS exposition, the mean is 5. Based on this data, we conclude the votes and decisive power of all the targets which contribute to hypothesis support in CS contrasts is significantly lower than in non-CS contrasts.
+
+As for an overview study among contrasts, we now switch to Figure 6 for the top ranked DE genes ranking displayed on a heat-map-like mode.
+
+Predictions of contrasts 3R4F, SWITCH and CESS —in all their timepoints—were expected to have a similar signature, since they experiment has been performed on subjects which have been exposed to cigarette smoke (CS). As s subgroup, SWITCH and CESS also hold the relation of quitting CS exposition at a set time, therefore, their result match also makes sense.
+
+Ambiguities are also present, e.g. within the same contrast THS2.2, at different timepoints, their predictions for the top ranked genes differ widely. The discrepancy, however, lays in the detection, not in the rank value, as genes ranked in a first position for a lower exposure time (3 months) have not even entered the top ranked genes in the longer exposure (6 months).
+
+As seen, SigNet delivers a broader view of the candidates as we can see the full network ranked. MARINa suffers hypotheses loss at the enrichment step due to its GSEA and shadowing filtering methods. As a result, the outcome remains incomplete for in-depth exploration, since only a few top predictions are returned.
+
+When joined together using an overlap (Figure img:comparisonSM), we see there’s a slight consensus among both, i.e. top cases (top 5\% of results) from SigNet are also present in MARINa’s result set. Due to this support, we present intersected results as first candidates to be further explored with interaction graphs.
+
+Due to previously (lab) User specified needs, GO terms for the top results have also been added to the selected results (Table 1).
+
+\subsubsection{DES-nA Component}
+In this case, the graphs have been generated de novo while using a reference for interactions. New graph results might appear, which would do not perfectly match known pathways, nor diverge largely from the curated ground truth. These are based entirely on the input data and serve us to pinpoint dissimilarities in particular individuals.
+
+A second overview represents via a heat map the fold-change of each of the nodes present in a certain subnetwork, across all the contrasts that have been used to calculate said subnetwork. 
+
+Figure img:DESNA-heatmaps helps on boundary setting by displaying an overview of the cases. The percentage of cases which are dysregulated can be seen at first sight which, in turn, can be used to colour graphs as Figure img:DESNA-graphs. 
+
+Visualization and further inspection has been designed based on some UX principles. In this case, mainly using colour scales and matching input’s original names instead of using network names. An interactive of this graphs has been considered unnecessary due to their simplicity.
+
+\subsection{Suitability based on accuracy}
+Since the previous section agrees on the fact all the algorithms are suitable for biological information extension and dispose of the same properties when it comes to straightforward interpretation, the following points aim to ease the task of choosing which to method to deliver per component as the most suitable in terms of visualisation and accuracy.
+We must keep in mind IUT and DES-nA are not comparable in terms of accuracy metrics, as their approaches and benchmarking systems differ. Besides we miss DES-nA’s Benchmark Core and, therefore, accuracy results.
+
+\subsubsection{IUT Component}
+During assessment, both minimum start nodes (msn) and FDR-corrected p-value (adj.pvalue) parameters act as filters for the input nodes in SigNet’s run. However, based on the benchmarking we conclude only adj.pvalue interferes in the prediction accuracy, while the minimum start nodes amount does not. This effect happens because the adj.p.value filters down the nodes only, reducing the amount of elements to forward to the main algorithm. A value of 0.05 is used, both due to literature recommendations and due to parameter tuning performed at the B Core.
+
+MARINa results should not be directly compared on the same scale as SigNet’s due to the result set. MARINa only returns the top-ranked hypothesis which passes all the filters, while SigNet ranks the full (cropped by the filters of the Format Core) network. A standard run results in a rank size of 10 for the former and 46.360 for the latter, out of a total 57.606 input. The accuracy scores are rescaled to the match the total size of the output.
+The benchmark is run on both algorithms using the same N test cases. The main accuracy score relies on presence of the real target (extracted from TTD and CMAP2) in the hypothesis set from the result (from the algorithms), i.e. if the target has been predicted. Results can be seen in Figure img:SigNetMARINaBench
+
+The low scoring of MARINa is a consequence of the accuracy of the methods: The top-ranked hypothesis contain at most a 2 out of 10 targets match. In turn, the average score among all N test cases drops below 5\% accuracy.
+
+
+\subsubsection{IUT Component}
+Since the DES-nA component could not be assessed using a gold standard we skip this section and forward a conclusion based on visualization properties straight to the Discussion.
