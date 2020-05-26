@@ -9,6 +9,7 @@
 
 \LoadClass[10pt,twoside]{article}
 
+\RequirePackage[table,xcdraw]{xcolor}
 \RequirePackage{booktabs}
 \RequirePackage{calc}
 \RequirePackage{caption}    % captionsetup
@@ -24,7 +25,7 @@
 \RequirePackage{refcount}   % number of last page
 \RequirePackage{soul}       % nice spaced small caps
 \RequirePackage{wrapfig}    % author pictures
-\RequirePackage{xcolor}
+
 % \RequirePackage[grid,texcoord]{eso-pic}
 % \RequirePackage{varioref}
 

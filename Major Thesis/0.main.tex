@@ -1,15 +1,20 @@
 \documentclass{jot}
-
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
 \usepackage{subfiles}
 \usepackage{titlesec}
+\usepackage{multicol}
+\usepackage[titles]{tocloft}
+\usepackage{adjustbox}
+
 \setcounter{secnumdepth}{4}
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
 
 \usepackage{microtype} % optional, for aesthetics
 \usepackage{tabularx} % nice to have
@@ -89,5 +94,11 @@ This work examines lung omics analyses from a 6-month inhalation exposure study 
 %\begin{acknowledgments}
 %ACKS
 %\end{acknowledgments}
+
+\newpage
+\appendix
+\section{Supplementary Material}
+\subfile{supplementary.tex}
+
 
 \end{document}
