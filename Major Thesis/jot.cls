@@ -501,7 +501,7 @@
     \hypersetup{% Embed PDF metadata after user has set it in preamble.
         pdfauthor=\jot@runningauthor,
         pdftitle=\jot@runningtitle,
-        pdfsubject=\jot@journalname,
+        %pdfsubject=\jot@journalname,
     }%
     \date{}% should customize \maketitle
     \maketitle

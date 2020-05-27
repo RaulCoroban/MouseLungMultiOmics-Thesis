@@ -5,31 +5,54 @@ At the IUT component, both SigNet and MARINa deliver us with a list of seeds whi
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=\textwidth, height=\textheight, keepaspectratio]{Major Thesis/figures/iut/graph/3R4F4m50-SP1.png}
+    \includegraphics[width=\textwidth, height=\textheight, keepaspectratio]{Major Thesis/figures/iut/graph/SWITCH4m50-CUX1.png}
     \caption{Interaction sub-network of the top DE ranked gene CUX1 (Cut Like Homeobox 1) at node 50\% contribution. SigNet run on Switch 4m contrast. Each node include its original fold-change, coloured to aid visualization.}
     \label{fig:graph-expansion}
 \end{figure}
 
-An observation of the system for the specific SWITCH 4m contrast is displayed in Figure \ref{fig:graph-expansion}, where interactions for the top DE gene has been retrieved, keeping only the 50\% of the nodes that contributed to its rank rise. In this particular result, we aim to investigate the surroundings and inner interactions of CUX1. Its product is known to have a gene regulatory purpose and influence on the cell cycle. More precisely its down-regulation has been related to tumorgenesis [reference].
+An observation of the system for the specific SWITCH 4m contrast is displayed in Figure \ref{fig:graph-expansion}, where interactions for the top DE gene has been retrieved, keeping only the 50\% of the nodes that contributed to its rank rise. In this particular result, we aim to investigate the surroundings and inner interactions of CUX1. Its product is known to have a gene regulatory purpose and influence on the cell cycle. More precisely its down-regulation has been related to tumorigenesis \cite{Wong2014InactivatingTumorigenesis}.
+
+
+Besides, CUX1 belongs to the top 10 ranked for SigNet in all contrasts that involve cigarette smoke (CS) in any proportion and duration (3R4F, SWITCH, CESS), as shown in Figure \ref{fig:heatmap-overview}. Same happens with RELA Proto-Oncogene (as NF-KB Subunit), MYC Proto-oncogene, where we observe a minor rank divergence.
 \\
 
-Besides, CUX1 belongs to the top 10 ranked for SigNet in all contrasts that involve cigarette smoke (CS) in any proportion and duration (3R4F, SWITCH, CESS), as shown in Figure \ref{fig:heatmap-overview}. Same happens with RELA Proto-Oncogene, as NF-KB Subunit, MYC Proto-oncogene, where we can observe the rank divergence is minor.
+At first sight, the information retrieved aligns with an expected outcome, i.e. since we are handling lung expression data from smoked and control cases, we anticipate insight lined up with any of the main known problems related to smoking, such as proto-oncogenes supportting lung cancer. However, is on biology experts to determine for which to aim to proceed, keeping divergent solutions as a possible outcome, mainly due to the unpredictability, and hidden mechanistic when it comes to systems biology.
 \\
 
-At first sight, the information retrieved aligns with an expected outcome, i.e. since we are handling lung expression data from smoked and control cases, we anticipate insight lined up with any of the main known problems related to smoking, e.g. proto-oncogenes supportting lung cancer. However, is on biology experts to determine for which to aim to proceed, keeping divergent solutions as a possible outcome, mainly due to the unpredictability, and hidden mechanistic when it comes to systems biology.
+On the other hand, on a broader view of control results, non-smoke contrasts (THS and  CHTP) suffer a more severe cut in the input, as a result of the minimum FC requirement at the Format Core. Smoke contrasts (3R4F, SWITCH and CESS) have more nodes which present DEG than their non-smoke counterparts, i.e. THS and CHTP aerosol only induce low effects in the lung, which are then difficult to link to a specific mechanism. This leaves us with fewer start points to trigger the graph construction.
 \\
 
-On the other hand, on a broader view of control results, non-smoke contrasts (THS and  CHTP) suffer a more severe cut in the input, as a result of the minimum FC requirement at the Format Core. Smoke contrasts (3R4F, SWITCH and CESS) have more nodes which present DEG than their non-smoke counterparts, i.e THS and CHTP aerosol only induce low effects in the lung, which are then difficult to link to a specific mechanism. This leaves us with fewer start points to trigger build the graph when treating non-smoke contrasts.
+Entangled static networks such as Figure \ref{fig:graph-expansion} hinder research. Due to this, an interactive version of the graph is offered alongside with the generated PNG graphs. It allows live node interaction through the web browser. A preview of the interactive version and the remaining results across all contrasts can be found in Suppl.Figures \ref{section:suppl:results}.
 \\
 
-Entangled static networks such as Figure \ref{fig:graph-expansion} hinder research. Due to this, an interactive version of the graph is offered alongside with the generated PNG graphs. A preview of the interactive version and the remaining results across all contrasts can be found in Suppl.Figures under Extra Insight Results.
+On the other hand, contrasts exposed to CS dispose of entangled contributor’s graphs. At a cutoff of 50\% of cumulative votes, node count rounded mean is 200 (Figure \ref{fig:compare-density}). For the group which does not have CS exposition, the mean is 5. Based on this data, we conclude the votes and decisive power of all the targets which contribute to hypothesis support in CS contrasts is significantly lower than in non-CS contrasts.
 \\
 
-On the other hand, contrasts exposed to CS dispose of entangled contributor’s graphs. At a cutoff of 50\% of cumulative votes, node count rounded mean is 200. For the group which does not have CS exposition, the mean is 5. Based on this data, we conclude the votes and decisive power of all the targets which contribute to hypothesis support in CS contrasts is significantly lower than in non-CS contrasts.
-\\
+\begin{figure}
+    \begin{subfigure}{0.3\linewidth}
+        \includegraphics[width=\textwidth, height=\textheight, keepaspectratio]{Major Thesis/figures/iut/graph/3R4F4m50-SP1.png}
+            \caption{3R4F 4m contrast}
+            \label{img:smoke}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.3\linewidth}
+        \includegraphics[width=\textwidth, height=\textheight, keepaspectratio]{Major Thesis/figures/iut/graph/CESS4m50-RELA.png}
+            \caption{CESS 4m contrast}
+            \label{img:prev-smoke}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.3\linewidth}
+        \centering
+        \includegraphics[width=\textwidth, height=\textheight, keepaspectratio]{Major Thesis/figures/iut/graph/CHTP4m-E2F1.png}
+            \caption{CHTP 4m contrast}
+            \label{img:non-smoke}
+    \end{subfigure}
+    
+    \caption{Node density comparison at 50\% among (a) smoke contrast, (b) smoked past and (c) aerosol products.}
+    \label{fig:compare-density}
+\end{figure}
 
 As for an overview study among contrasts, we now switch to Figure \ref{fig:heatmap-overview} for the top ranked DE genes ranking displayed on a heat-map-like mode.
-\\
 
 \begin{figure}
     \centering
@@ -38,7 +61,7 @@ As for an overview study among contrasts, we now switch to Figure \ref{fig:heatm
     \label{fig:heatmap-overview}
 \end{figure}
 
-Predictions of contrasts 3R4F, SWITCH and CESS —in all their timepoints—were expected to have a similar signature, since they experiment has been performed on subjects which have been exposed to cigarette smoke (CS). As s subgroup, SWITCH and CESS also hold the relation of quitting CS exposition at a set time, therefore, their result match also makes sense.
+Predictions of contrasts 3R4F, SWITCH and CESS —--in all their timepoints—-- were expected to have a similar signature, since they experiment has been performed on subjects which have been exposed to cigarette smoke (CS). As s subgroup, SWITCH and CESS also hold the relation of quitting CS exposition at a set time, therefore, their result match also makes sense.
 \\
 
 Instability of results can likely be also explained by overall low response to THS2.2 expose. The discrepancy of top ranked genes, however, lays in the detection, not in the rank value, as genes ranked in a first position for a lower exposure time (3 months) have not even entered the top ranked genes in the longer exposure (6 months).
@@ -47,7 +70,7 @@ Instability of results can likely be also explained by overall low response to T
 As seen, SigNet delivers a broader view of the candidates as we can see the full network ranked. MARINa suffers hypotheses loss at the enrichment step due to its GSEA and shadowing filtering methods. As a result, the outcome remains incomplete for in-depth exploration, since only a few top predictions are returned.
 \\
 
-\begin{table}[]
+\begin{table}[h]
 \centering
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -68,6 +91,8 @@ When joined together using an overlap (Figure img:comparisonSM), we see there’
 Due to previously (lab) User specified needs, GO terms for the top results have also been added to the selected results (Table 1).
 
 \subsubsection{DES-nA Component}
+[Indicate time-points + differences]
+
 In this case, the graphs have been generated de novo while using a reference for interactions. New graph results might appear, which would do not perfectly match known pathways, nor diverge largely from the curated ground truth. These are based entirely on the input data and serve us to pinpoint dissimilarities in particular individuals.
 \\
 
@@ -80,7 +105,7 @@ Figure img:DESNA-heatmaps helps on boundary setting by displaying an overview of
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{Major Thesis/figures/desna/desna-network.png}
-    \caption{Particular heat map built on 3R4F 4m contrast. Discriminates outliers (left) from cases (right) taken into consideration for subnetwork calculation.}
+    \caption{Network built on [contrast] DEG data. Fold-change threshold to consider expression as DEG = 1.5. A node is considered as dysregulated if 0.5 (50\%) of the cases are DE, i.e. FC >= 1.5}
     \label{fig:desna-network}
 \end{figure}
 

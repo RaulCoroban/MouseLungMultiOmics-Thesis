@@ -6,10 +6,11 @@ This information is available in a public repository \href{https://github.com/ph
 \\
 
 \subsection{External databases}
-Computational Biology methods for Drug Discovery or \href{https://genestack.com/news/blog/case-study-clarivate-analytics/}{CBDD} database (Clarivate Analytics, Boston, MA) provides R-language API interface for information gathering. Interaction networks, gene full description and full pathways used in this work have been retrieved via R scripting access to the API.
+\label{section:external-db}
+Computational Biology methods for Drug Discovery or \href{https://genestack.com/news/blog/case-study-clarivate-analytics/}{CBDD} \footnote{Clarivite Analytics: \url{https://genestack.com/news/blog/case-study-clarivate-analytics/}} database (Clarivate Analytics, Boston, MA) provides R-language API interface for information gathering. Interaction networks, gene full description and full pathways used in this work have been retrieved via R scripting access to the API.
 \\
 
-Assessing package’s components accuracy relies on CMAP2 (Connectivity Map v.2 - The Broad Institute of MIT and Harvard in Cambridge, Massachusetts) lab-extracted data [reference] and TTD (Therapeutic Target Database) dataset [reference].
+Assessing package’s components accuracy relies on CMAP2 (Connectivity Map v.2 - The Broad Institute of MIT and Harvard in Cambridge, Massachusetts) lab-extracted data \cite{Subramanian2017AProfiles} and TTD (Therapeutic Target Database) dataset \cite{Wang2020TherapeuticTherapeutics}.
 \\
 
 CMAP2 offers online datasets available download locally. Its manipulation is done programmatically using R Scripts, in order to locally save the compressed files, extract individual files and read them into R objects. (See Suppl. Material)
@@ -47,6 +48,7 @@ All dependencies have been resolved applying TidyVerse [reference] best practice
 New targets can be discovered among the transcription factors (TFs) which control the gene expression of an individual, based solely on the downstream reads [references]. Results from this algorithms can aim at new drug design and also have a starting point where to focus on to lookup anomalies. SigNet and MARINa are part of this Component.
 
 \paragraph{Format Core}
+\label{section:iut-f}
 Given a set of DE genes, they are cleaned for null values and then filtered using an absolute fold-change (FC) of 0.5 and an FDR-corrected p-value (Adj. p-value) of 0.05 to include only the relevant genes [as stated in referenced SigNet paper].
 \\
 
@@ -64,7 +66,7 @@ Within the molecular interaction network from MetaCore, the majority of interact
 \paragraph{Operative Core}
 SigNet uses the MetaCore network to calculate and infer the upstream regulators (URs) using causal graph theory and consensus ranking systems. Specific parameters of the original algorithm are set for the run based on literature: The maximum number of steps to consider a node unreachable in the causal network building is set to 20 (1 step = 1 edge or node jump); The minimum number of hypothesis for each run must be higher than 2 in order to ensure starting. To avoid having poor predictions, the default has been set to 10 starting nodes.
 \\
-\begin{table}[]
+\begin{table}[!h]
 \begin{tabular}{|l|l|l|l|l|l|l|l|}
 \hline
   & hypothesis & direction & reachable & unreachable & in\_original & {[}scores…{]} & final\_rank \\ \hline
@@ -74,7 +76,7 @@ SigNet uses the MetaCore network to calculate and infer the upstream regulators 
 N & 1723       & 1         & 0         & 136         & FALSE        & …             & N           \\ \hline
 \end{tabular}
 \caption{SigNet ranked list of hypothesis.}
-\label{tbl:signet_input}
+\label{tbl:signet_output}
 \end{table}
 
 SigNet’s functions have ben slightly enhanced by overriding some functions. The three main rankers lambda, power weights and exponential weights [Suppl. Methods] return a score for each hypothesis in the original implementation. The score calculates how much influence — contributes— has each node over each hypothesis. Originally, the sum of scores of each row resulted in the final score for a hypothesis. Therefore, the full row includes the contribution of each node. Rankers’ have been modified to individually return the contribution of each node over the hypothesis.
@@ -85,7 +87,7 @@ SigNet’s original algorithm result consists of a ranked list of the full netwo
 
 The full output of the expanded SigNet includes a ranked list of hypotheses, the causal graph, contributions matrix and metadata (scoring systems and score consensus method).
 
-\begin{table}[]
+\begin{table}[!h]
 \centering
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
@@ -96,7 +98,7 @@ The full output of the expanded SigNet includes a ranked list of hypotheses, the
 N & 1024       & -         & 130      & 6          & 1,067      \\ \hline
 \end{tabular}
 \caption{MARINa ranked list of hypothesis.}
-\label{tbl:marina_input}
+\label{tbl:marina_output}
 \end{table}
 
 Unlike SigNet, MARINa’s outputs only top URs. It does not rank the whole network due to its regulon-based nature, i.e. infers TF activity from the global transcriptional activation of its regulon, and the calculations crop the network, ruling out poor candidates (Table 3). 
@@ -104,13 +106,16 @@ However, the output format is adapted to match SigNet’s, in order to ease inte
 
 \paragraph{Analysis Core}
 Algorithms are run over all (13) contrasts under the same parameters hence, for each algorithm individually, we build:
-A side-to-side comparison using heat maps to display URs’ ranks. (Figure 6). The rows collect the set of first 20 top-ranked hypothesis across contrasts.
-An annotation the top N DEG influencers using Go-terms (Table 4). The relation gene-term can be one-to-many, hence the larger the N parameter is set, the larger the table is.
-The interaction sub-network of the DE influencer formed by nodes that contributed significantly in its score (Figure 5). The hardiness of the graph depends on the level of contribution. Since we know the score of each contributor, we can calculate its percentage overall and perform a cumulative sum from the highest contributor to the lowest and cut at a preferred threshold. 
-Therefore, expressing “50\% of the contribution” indicates the graph contains only the top contributors nodes whose contribution percentage add up to 50\% of the total. Setting the threshold to 100\% includes all the nodes whose score > 0.
+
+\begin{itemize}
+    \item A side-to-side comparison using heat maps to display URs’ ranks. (Figure \ref{fig:heatmap-overview}). The rows collect the set of first 20 top-ranked hypothesis across contrasts.
+    \item An annotation the top N DEG influencers using Go-terms (Table \ref{tbl:goterms}). The relation gene-term can be one-to-many, hence the larger the N parameter is set, the larger the table is.
+\end{itemize}
+
+The interaction sub-network of the DE influencer formed by nodes that contributed significantly in its score (Figure \ref{fig:graph-expansion}). The density of the graph depends on the level of contribution. Using the individual score for each contributor, we can calculate its contribution percentage and perform a cumulative sum from the highest contributor to the lowest, and then cut at a preferred threshold. 
 \\
 
-This is the main Core which delivers results to the final report.
+Therefore, expressing “50\% of the contribution” indicates the graph contains only the top contributors nodes whose contribution percentage add up to 50\% of the total. Setting the threshold to 100\% includes all the nodes whose score > 0.
 
 \paragraph{Compare Core}
 The top-ranked URs are checked based on table results, i.e. we make an intersection of the raw outputs at gene id level, and compare their ranks (Figure Z.1). This comparison is also made using heat maps based on the intersected output.
@@ -126,10 +131,9 @@ Obtain .CEL files from CMAP2. These contain transcriptomics expression values fr
     \item Assess benchmark set against gold standard.
 \end{enumerate}
 
-First, we programmatically obtain gene expression data from CMAP2 database [reference]. 
-\\
+First, we programmatically obtain gene expression data from CMAP2 database. Second, for each cell treated under a drug experiment (mixing time periods, concentrations and cell lines), the FC is calculated using CBDD library, and we build the final input DataFrame whose format matches the output of the Format Core (\ref{section:iut-f}).
 
-Second, for each cell treated under a drug experiment (mixing time periods, concentrations and cell lines), the FC is calculated using CBDD library. Procedure for treating .CEL files to convert them to the same input we need for our project is described in Suppl. Material, in order to avoid losing focus of this workflow. This will deliver a format as expected for the built pipeline: a set of DE genes containing fold-change, p-value and needed idenificators.
+Procedure for treating .CEL files to convert them to the same input we need for our project is described in Suppl. Material \ref{section:suppl:bench}, in order to avoid losing focus of this workflow.
 \\
 
 After, both SigNet and MARINa are run over the CMAP2-derived data, under custom parameters. The steps this process follows is the same as for any data inputed:
@@ -142,17 +146,13 @@ As we aim for an extensive benchmarking, we set an iteration which uses differen
 Then, we programmatically gather the drug-target relation knowledge from the TTD and build the gold standard. For format reasons, and to ease match and name universalisation, CID codes are used for drugs, and gene symbols for genes. The translation is supported by limma package, which aids in gene translation and synonyms retrieval, and PubChem REST API [reference], whose main aim is to identify drugs by their name and synonyms.
 \\
 
-Last, we perform the assessment. Scoring SigNet is done by creating cutting thresholds. SigNet ranks the full reachable network, therefore all the reachable genes are present in the result. Since both the activation (+) and repression (-) instances are present in the ranking, we consider only the top ranked one for the scoring, based on the fact that the gene has been identified regardless its influence.
+Last, we perform the assessment. Scoring SigNet is done by creating \textit{cutting thresholds}. SigNet ranks the full reachable network, therefore all the reachable genes are present in the result. Since both the activation (+) and repression (-) instances are present in the ranking, we consider only the top ranked one for the scoring, based on the fact that the gene has been identified regardless its influence.
 \\
 
 Cropping the top part of the result iteratively (by default, from 1 to 46.000 at a 1000 step) and comparing it to the gold standard allows the visualization of a progression, similar to a ROC-like plot (Figure).
 \\
 
-Scores for SigNet can be based on presence (whether they exist within the cut or not) or rank. Scoring by rank implies reversely ranking the full network (creating a weight instead of a rank), calculating the highest possible score if all the gold standard items are matched, and divide by the real score resulting from the ranking.
-
-Scoring MARINa follows the exact same rules.
-
-\subsubsection{3.5.2 Differential Expression Sub-Network Analysis - DES-NA Component}
+\subsubsection{Differential Expression Sub-Network Analysis - DES-NA Component}
 
 This module focuses on constructing de novo sub-networks based on the input. Their approach differs due to the format of the input, although the aim stays the same. DEGAS and DIAMOnD algorithms belong to this Component.
 
@@ -163,6 +163,7 @@ The controls corresponding to each contrast are specified within the main input 
 The contrasts available in the dat file also include timepoints. Per each contrast, 3 different measures have been made on different time points: after 3, 4 and 6 months. If timepoints flag is activated, the Core treats each combination of contrast and time point as a different case. Conversely, if deactivated, all contrast’s cases will be associated, e.g. contrasts “3R4F 3m”, “3R4F 4m”,“CHS 4m” are collapsed in “3R4F” and “CHS”.
 
 \paragraph{Operative Core}
+\label{section:desna-o}
 Both DEGAS and DIAMOnD first perform checks for nodes and network mismatch to avoid NULL results. They take an interaction network to base calculations on, since their de novo technique requires existing curated interactions from MetaCore.
 
 For DEGAS, k is the parameter that requires most of the time to calculate. The Operative Core has side functions to estimate this parameter by using greedy search, i.e. setting the upper and lower bounds we accept and iterating on each. The performance of the estimator is increased due to the intrinsic heuristics of DEGAS (ExpandingGreedy by default) which, although they depend on k value, ensure termination. Based on experimental tries, we always set k to at least l+1. 

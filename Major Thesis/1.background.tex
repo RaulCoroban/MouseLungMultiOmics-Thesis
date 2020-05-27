@@ -1,66 +1,84 @@
 Respiratory tract disorders are one of the most common world diseases. Only lung cancer accounts for 20\% of all cancer deaths, and this is one of the types of cancer related to smoking burnt tobacco. Having a more comprehensive and enriched interpretation of the data can serve as a supporting evidence to smokers to quit or switch to a better alternative which is tagged as Reduced-Risk Product (RRP). 
+\\
 
 Classical toxicology  approaches can lack sensitivity and provide limited mechanistic insights. Systems toxicology \cite{Sturla2014SystemsAssessment} complements standard toxicology endpoints with in-depth molecular measurement technologies (i.e. omics technologies) and computational analyses techniques to provide comparative insights into toxicological mechanisms across exposures. In the context of RRP assessment, systems toxicology approaches are used to evaluate the effect of RRP aerosols, compared with cigarette smoke, on biologically relevant systems, such as organotypic airway in vitro cultures or mice’s lungs.
-
+\\
 
 Many network-level analysis methods for omics data have been proposed and tested in limited settings, which makes it difficult for the analyst to select from the available approaches (and their parameter space) and appropriately judge the information content of the obtained results. More specifically, for systems toxicology applications, the comparative performance of the different approaches to discover toxicologically relevant mechanisms is unknown. Thus, we aim to research new relevant network-level analysis approaches to offer a deeper biological insight from omics data, enrich the data with curated resources and databases, and facilitate the biological interpretation of the diverse (multi-) omics data, supporting further investigation down the line.
-
+\\
 
 The challenge lays on the large-scale omics data we have nowadays which is tackled by using available algorithms widely modified and adapted to our laboratory omics data and biological report generation. 
-
+\\
 
 Currently, there is a pipeline between lab experiments and analysis which includes functional interpretation approaches for omics data (e.g. leveraging gene-set and network enrichment analyses). Our extension aims at a simplified but still informative displaying of the data. Said extension consists of a development of an R package which gathers 4 existing and already implemented algorithms, divided in 2 modules (see Methods), based on biological systems’ analysis. After the analysis, we proceed to benchmark the algorithms and extract the biological insight from it, since the final tool is applied to ApoE mouse lung data which comes from the (external) lab.
-
 
 \subsection{Algorithms}
 Among the studied methods [references] and considering project extension, we have picked 4 algorithms which can use transcriptomics data from several experiments. They all rely on an interaction network, although they either aim to predict based on downstream data like SigNet \cite{Coker2017SiGNet:Inference} and MARINa \cite{Lefebvre2010ACenters}  or rebuild \textit{de novo} using the provided network, like DEGAS \cite{Ulitsky2010DEGAS:Diseases} and DIAMOnD \cite{Ghiassian2015AInteractome}.
 
-All the algorithms are prepared to analyse gene expression profiles coming from different sources and species. In this work, we use a dataset coming from the APoE-/- \cite{LoSasso2016TheReduction} mouse lung data. They act as predictive procedures which will further enrich the available data and also aims to ease result interpretation. These approaches can be classified under a more general paradigm, depending on the  level of detail they look-up the result on, i.e. seeking for Master Regulators (individual results) or significantly affected pathways \cite{Faust2010PathwayExtraction} (set results).
 
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{@{}lYYYYY@{}}
+\hline
+        & Category                                               & Input                                                            & Output                & Parameters                                       & Principle                                                         \\ \hline
+SigNet  & Inference Upstream Targets (IUT)                       & Start nodes + Interaction network                                & Ranked network        & Usage of transcription factors + ranking methods & Upstream regulator prediction based on downstream pathophenotype  \\ \hline
+MARINa  & Inference Upstream Targets (IUT)                       & Start nodes + Interaction network                                & Ranked hypothesis     & \# of permutations + p-value thresholds          & Master Regulators prediction based on downstream pathophenotype   \\ \hline
+DEGAS   & Differentially Expressed Sub-network Analysis (DES-nA) & Gene expression matrix + Phenotypes vector + Interaction network & Subnetworks hypotesis & k + l + DEG.threshold + p-value usage            & De novo subnetwork building based on dysregulated gene expression \\ \hline
+DIAMOnD & Differentially Expressed Sub-network Analysis (DES-nA) & Interaction network                                              & Subnetworks hypotesis & \# of iterations + connectivity method           & De novo subnetwork building based on connectivity significance    \\ \hline
+\end{tabularx}%
+\caption{Work algorithms overview. category field is defined in this project based on the algorithm calculation criterion and output. The interaction network is retrieved from Clarivite Analytics (see \ref{section:external-db}) and contains proteins, genes and other product interactions. k+l parameters are specific for DEGAS (see description at \ref{section:desna-o})}
+\label{tbl:algorithms-overview}
+\end{table}
+
+All the algorithms are prepared to analyse gene expression profiles coming from different sources and species. In this work, we use a dataset coming from the APoE-/- \cite{LoSasso2016TheReduction} mouse lung data. They act as predictive procedures which will further enrich the available data and also aims to ease result interpretation. These approaches can be classified under a more general paradigm, depending on the  level of detail they look-up the result on, i.e. seeking for Master Regulators (individual results) or significantly affected pathways \cite{Faust2010PathwayExtraction} (set results).
+\\
 
 All algorithms have been developed outside of this work. We have built the pipeline which brings them all together, applying enhancements where we considered the returned information was not sufficient.
-
+\\
 
 \subsubsection{SigNet}
 Signalling Network (SigNet) \cite{Coker2017SiGNet:Inference} is an inference method based on transcriptional networks. It allows us to find signals on dysregulated gene profiles, providing a ranked list of candidates for inspection. 
-
+\\
 
 By inputting gene expression data which we filter, a causal graph is built from it, taking a known interaction network (INN) as reference.
+\\
 
-
-The resulting graph is then divided into a bipartite graph, splitting hypothesis from targets, being the former candidates for downstream perturbations, and the latter the affected nodes which support the prediction. Last, shortest paths (SP) from hypothesis to targets are calculated, whose scoring relies on 6 predefined ranking methods. Each of these has an individual formula to score graphs combining fold-change measurements (Abs.FC from the main input) and node distances (SP calculated before). The combination of the scores can be tuned and set to pick the minimum score by default. The formulas are further discussed in Suppl. Material [reference]
+The resulting graph is then divided into a bipartite graph, splitting hypothesis from targets, being the former candidates for downstream perturbations, and the latter the affected nodes which support the prediction. Last, shortest paths (SP) from hypothesis to targets are calculated, whose scoring relies on 6 predefined ranking methods. Each of these has an individual formula to score graphs combining fold-change measurements (Abs.FC from the main input) and node distances (SP calculated before). The combination of the scores can be tuned and set to pick the minimum score by default. The formulas are further discussed in Suppl. Material \ref{section:suppl:algorithms-signet}
 
 
 \subsubsection{MARINa}
 MAster Regulator Inference algorithm (MARINa) \cite{Lefebvre2010ACenters} has been designed to infer Transcription Factors (TFs) based on the transition between two profiles. Using a Differentially Expressed Gene (DEG) profile which displays a fold-change as proof of the profile shift, the inference is performed at a regulon level.
-
+\\
 
 First, gene set enrichment analysis (GSEA) [reference] is used to assess the enrichment for each TF-regulon. Next, regulons which aim at a same target are ruled out via shadow analysis to avoid common mammalian master regulator overlap [reference]. E.g. if  Reg1 and Reg2 overlap significantly, but only Reg1's TF is enriched, Reg2’s TF could be a shadow regulator and therefore has to be analyzed using GSEA again in order to be kept.
 Last, synergy analysis checks if pairs of TFs have a synergistic effect on common-targets due to multiplicative kinetics by using GSEA anew, whose result yields a filtered candidate result set for further exploration.
 
-
 \subsubsection{DEGAS}
 DysrEgulated Gene set Analysis via Subnetworks (DEGAS) \cite{Ulitsky2010DEGAS:Diseases} was first devised to find different pathway dysregulation on clinically-determined sick individuals who share the same condition by doing a \textit{de novo} pathway inference. Also based on DEG profiles and a global network (GN), DEGAS solves an NP-hard graph approach known as the set cover problem applying heuristics for a fair runtime completion.
+\\
 
 DEGAS’ discovery starts with the conversion of gene expression data into binary tables of genes over condition samples. Then, it aims to find the smallest subnetwork within GN where at least k genes from the binary table are dysregulated in all but “l” (lower-case L) cases. By default l is set to 20\% of the amount of condition cases. k is more difficult to set due to the set-cover-nature, which is why the method relies on heuristics. 
-
+\\
 
 Given a starting point, a subnetwork is generated from scratch (SS), and is iteratively expanded. A case which contains less than k genes in SS is considered uncovered. The nodes within the neighborhood of SS are considered and, the one that includes the largest number uncovered cases is added to the SS. The iteration stops when the number of uncovered cases reaches l. As a result, may subnetworks can be inferred as a dysregulated pathway (DP) of the cases where, for a same condition, different patients can have similar DPs but not always identical.
 
 \subsubsection{DIAMOnD}
 DIseAse MOdule Detection (DIAMOnD) \cite{Ghiassian2015AInteractome} iteratively constructs subnetworks by analyzing a regulator interaction network. At every step, the most over-connected node is added to the starting set (which begins with a seed), and it halts the calculations based on user-defined thresholds.
+\\
 
 The seed(s) is (are) defined by the user over a fully connected network. DIAMOnD then pre-selects a set of candidate nodes based on connection. This neighbourhood is tagged as community, and its boundary definition is done by local modularity.
+\\
 
 By default, the over-connectivity analysis measures the connectivity significance via p-value calculation for each candidate node. The most significantly connected, i.e. lowest p-value, is added to the module. The expansion in any direction is cropped once the thresholds prevent further additions.
 
 \subsection{Benchmarking}
 Each algorithm has been benchmarked in their own studies. In this work we aim to benchmark our tool which includes these algorithms by following the same procedures and resources. 
+\\
 
 Since it integrates other libraries, our tool must rely on the online available datasets to retrieve information for the gold standard constructions, specifically on CMAP2 lab-extracted data, TTD dataset and CBDD Pathway recovery. The gold standard manufacture is a necessary step because any existing one adapts to our needs. Nevertheless, its definition is strictly relational, i.e. only databases that have a matching part (drug ids, gene ids, etc.) are put together. See \ref{section:methods} for full understanding of the build.
+\\
 
 Based on accuracy metrics we derive which are the most reliable algorithms for an insight analysis.  As the results we produce come from predictions, checking their reliability is as simple as contrasting test cases’ outcomes against a gold standard.
-
+\\
 
 Since comparison and straightforward interpretation is liable to subjective interpretation, these should measured through satisfaction forms forwarded to the end users of the results.
-
