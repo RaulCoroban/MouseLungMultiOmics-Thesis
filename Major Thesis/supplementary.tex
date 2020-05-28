@@ -99,3 +99,14 @@ The calculation of the final objects results in a list of cases, each containing
 By inputting gene expression data which we filter, a causal graph is built from it, taking a known interaction network (INN) as reference. All the edges present in the graph numerically indicate the kind of edge from which we derive the named mechanism: “1” for activation, “-1” for repression and “0” for unknown cases.
 
 For the construction, each node X is duplicated, creating an “activated” version (X+) and a repressed version (X-). For node interaction definition, e.g. X and Y in INN, if there is an activation edge from X to Y, then (X+) —> (Y+), and (X-) —> (Y-) are linked. Conversely, if there’s a repression factor, it yields (X+) —> (Y-) and (X-) —> (Y+). For unknown cases, edges are converted to pairs of edges with both activation and repression effects.
+
+The resulting graph is then divided into a bipartite graph, splitting hypothesis from downstream phenotypical items. All 6 scoring systems include the shortest path (SP) value in their arithmetic. One of the parameters to optimize SP is reachability limit, which treats a node as \textit{unreachable } after a default threshold of 20 jumps.
+
+\paragraph{Default Scoring systems}
+Where AFC = Absolute Fold-Change, SP = Shortest Path, reach(A, B) = A reaches B (True = 1, False = 0)
+
+\begin{center}
+    $NormalWeight(A) = \sum{b\ in\ signature} AFC(B) \times sign(SP(\neg B, A) - SP(B, A))$ \\    
+    $PowerWeight(A) = \sum{b\ in\ signature} AFC(B)^{SP(B, A)}$ \\
+    $Lambda(A) = \frac{\sum{b\ in\ signature} reach(A, B)}{cardinal(signature)} + \sum{b\ in\ signature} \frac{SP(B, A)}{cardinal(signature) \times MAXDISTANCE}$ \\
+\end{center}

@@ -3,7 +3,7 @@
 At the IUT component, both SigNet and MARINa deliver us with a list of seeds which we can use as a start point to initiate research. We get a ranked list of nodes which are potentially the most influent upstream individuals.
 \\
 
-\begin{figure}[!h]
+\begin{figure}[!hb]
     \centering
     \includegraphics[width=\textwidth, height=\textheight, keepaspectratio]{Major Thesis/figures/iut/graph/SWITCH4m50-CUX1.png}
     \caption{Interaction sub-network of the top DE ranked gene CUX1 (Cut Like Homeobox 1) at node 50\% contribution. SigNet run on Switch 4m contrast. Each node include its original fold-change, coloured to aid visualization.}
@@ -22,10 +22,10 @@ At first sight, the information retrieved aligns with an expected outcome, i.e. 
 On the other hand, on a broader view of control results, non-smoke contrasts (THS and  CHTP) suffer a more severe cut in the input, as a result of the minimum FC requirement at the Format Core. Smoke contrasts (3R4F, SWITCH and CESS) have more nodes which present DEG than their non-smoke counterparts, i.e. THS and CHTP aerosol only induce low effects in the lung, which are then difficult to link to a specific mechanism. This leaves us with fewer start points to trigger the graph construction.
 \\
 
-Entangled static networks such as Figure \ref{fig:graph-expansion} hinder research. Due to this, an interactive version of the graph is offered alongside with the generated PNG graphs. It allows live node interaction through the web browser. A preview of the interactive version and the remaining results across all contrasts can be found in Suppl.Figures \ref{section:suppl:results}.
+Entangled static networks such as Figure \ref{fig:graph-expansion} hinder research. Due to this, an interactive version of the graph is offered alongside with the generated PNG graphs. It allows live node interaction through the web browser. A preview of the interactive version and the remaining results across all contrasts can be found in Suppl.Figures \ref{section:suppl:results:3R4F-interactive} and \ref{section:suppl:results:cess-interactive}.
 \\
 
-On the other hand, contrasts exposed to CS dispose of entangled contributor’s graphs. At a cutoff of 50\% of cumulative votes, node count rounded mean is 200 (Figure \ref{fig:compare-density}). For the group which does not have CS exposition, the mean is 5. Based on this data, we conclude the votes and decisive power of all the targets which contribute to hypothesis support in CS contrasts is significantly lower than in non-CS contrasts.
+Contrasts exposed to CS dispose of entangled contributor’s graphs. At a cutoff of 50\% of cumulative votes, node count rounded mean is 200 (Figure \ref{fig:compare-density}). For the group which does not have CS exposition, the mean is 5. Based on this data, we conclude the votes and decisive power of all the targets which contribute to hypothesis support in CS contrasts is significantly lower than in non-CS contrasts.
 \\
 
 \begin{figure}
@@ -85,21 +85,18 @@ gene\_id & symbol & GO id      & term                           \\ \hline
 \label{tbl:goterms}
 \end{table}
 
-When joined together using an overlap (Figure img:comparisonSM), we see there’s a slight consensus among both, i.e. top cases (top 5\% of results) from SigNet are also present in MARINa’s result set. Due to this support, we present intersected results as first candidates to be further explored with interaction graphs.
+When joined together using an overlap (insert Figure img:comparisonSM), we see there’s a slight consensus among both, i.e. top cases (top 5\% of results) from SigNet are also present in MARINa’s result set. Due to this support, we present intersected results as first candidates to be further explored with interaction graphs.
 \\
 
 Due to previously (lab) User specified needs, GO terms for the top results have also been added to the selected results (Table 1).
 
 \subsubsection{DES-nA Component}
-[Indicate time-points + differences]
+This component allows custom control and cases dataset configuration. We have built two versions: (1) A collapsed one which gathers all of the contrast's time-points, delivering a contrast group which is representative, e.g. 3RF4 (with no specific time-point) contains 3, 4 and 6 months exposure time, and (2) a specific version which treats each contrast time-point independenly, e.g. 3R4F 3m and 3R4f 4m are two different datasets. Both hold the same format, then their variation will become evident on the results.
 
-In this case, the graphs have been generated de novo while using a reference for interactions. New graph results might appear, which would do not perfectly match known pathways, nor diverge largely from the curated ground truth. These are based entirely on the input data and serve us to pinpoint dissimilarities in particular individuals.
+In the results for this component, the graphs have been generated \textit{de novo}, although using a reference network on which to build the new derived interactions. New graph results might appear, which do not perfectly match known pathways, nor diverge largely from the curated ground truth. These are based entirely on the input data and serve us to pinpoint dissimilarities in particular individuals. An example of a generated network can be found in Figure \ref{fig:desna-network}.
 \\
 
-A second overview represents via a heat map the fold-change of each of the nodes present in a certain subnetwork, across all the contrasts that have been used to calculate said subnetwork. 
-\\
-
-Figure img:DESNA-heatmaps helps on boundary setting by displaying an overview of the cases. The percentage of cases which are dysregulated can be seen at first sight which, in turn, can be used to colour graphs as Figure img:DESNA-graphs. 
+A second overview of results represents the fold-change of each of the nodes present in a certain subnetwork by using a heat map. Values are displayed across all the contrasts that have been used to calculate said subnetwork. This is the first difference between (1) collapsed time-points and (2) specific time-points. In both cases, an observation like in [insert Figure img:DESNA-heatmaps] helps on boundary setting by displaying an overview of the cases. The percentage of cases which are dysregulated can be seen at first sight. The color scheme can be tuned by adjusting FC and \textit{percentage of dysregulation} allowed across constrasts.
 \\
 
 \begin{figure}
@@ -110,10 +107,13 @@ Figure img:DESNA-heatmaps helps on boundary setting by displaying an overview of
 \end{figure}
 
 Visualization and further inspection has been designed based on some UX principles. In this case, mainly using colour scales and matching input’s original names instead of using network names. An interactive of this graphs has been considered unnecessary due to their simplicity.
+\\
+
+Using the same technique as before, we employ the Compare Core from the developed \textit{omicssir} framework to aim fo consensus. This time, after an overlap procedure, no consensus has been found, which leads us to consider this component suitable only for visualization, but impedes our task of predicting its reliability. Nevertheless, this event already raises concern about one or both algorithms accuracy.
 
 \subsection{Suitability based on accuracy}
 Since the previous section agrees on the fact all the algorithms are suitable for biological information extension and dispose of the same properties when it comes to straightforward interpretation, the following points aim to ease the task of choosing which to method to deliver per component as the most suitable in terms of visualisation and accuracy.
-We must keep in mind IUT and DES-nA are not comparable in terms of accuracy metrics, as their approaches and benchmarking systems differ. Besides we miss DES-nA’s Benchmark Core and, therefore, accuracy results.
+We must keep in mind IUT and DES-nA components are not comparable in terms of accuracy metrics, as their approaches and benchmarking systems differ. Besides we miss DES-nA’s Benchmark Core and, therefore, accuracy results.
 
 \subsubsection{IUT Component}
 During assessment, both minimum start nodes (msn) and FDR-corrected p-value (adj.pvalue) parameters act as filters for the input nodes in SigNet’s run. However, based on the benchmarking we conclude only adj.pvalue interferes in the prediction accuracy, while the minimum start nodes amount does not. This effect happens because the adj.p.value filters down the nodes only, reducing the amount of elements to forward to the main algorithm. A value of 0.05 is used, both due to literature recommendations and due to parameter tuning performed at the B Core.

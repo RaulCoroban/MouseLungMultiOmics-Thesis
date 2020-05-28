@@ -53,13 +53,13 @@ Given a set of DE genes, they are cleaned for null values and then filtered usin
 The CBDD's interface offers the MetaCore interaction network. We translate the gene symbols to MetaCore IDs. Since the molecular units and subunits can have colliding id numbers, after translation, duplicated FCs are clustered using mean as a default algorithm, keeping the same id.
 \\
 
-If a gene symbol cannot be found in the database, the F Core relies on BioConductor limma package \footnote{\url{https://www.bioconductor.org/packages/release/bioc/html/limma.html}} to lookup synonyms and retry translation. Only 5\% of the genes could not be translated.
+If a gene symbol cannot be found in the database, the Format Core relies on BioConductor limma package \footnote{\url{https://www.bioconductor.org/packages/release/bioc/html/limma.html}} to lookup synonyms and retry translation. Only 5\% of the genes could not be translated.
 \\
 
-SigNet’s input object is formatted to include the metabase\_id, fold-change (fc) and the original entrez\_gene\_id.
+SigNet’s input object is formatted to include the metabase\_id, FC and the original entrez\_gene\_id.
 \\
 
-Within the molecular interaction network from MetaCore, the majority of interactions (edges) are tagged as “Binding” or “Transcription Regulator” (Suppl. Material - Figure A). The network is cropped to include only edges marked as “Transcription regulator”. Further option trimmings can be applied based on the maximum degree per node to speed up calculations. For this work we kept all the nodes regardless their degree.
+Within the molecular interaction network from MetaCore, the majority of interactions (edges) are tagged as “Binding” or “Transcription Regulator” (Suppl. Material - Figure \ref{img:suppl:degrees}). The network is cropped to include only edges marked as “Transcription regulator”.
 
 \paragraph{Operative Core}
 SigNet uses the MetaCore network to calculate and infer the upstream regulators (URs) using causal graph theory and consensus ranking systems. Specific parameters of the original algorithm are set for the run based on literature: The maximum number of steps to consider a node unreachable in the causal network building is set to 20 (1 step = 1 edge or node jump); The minimum number of hypothesis for each run must be higher than 2 in order to ensure starting. To avoid having poor predictions, the default has been set to 10 starting nodes.
@@ -77,7 +77,7 @@ N & 1723       & 1         & 0         & 136         & FALSE        & …       
 \label{tbl:signet_output}
 \end{table}
 
-SigNet’s functions have ben slightly enhanced by overriding some functions. The three main rankers lambda, power weights and exponential weights [Suppl. Methods] return a score for each hypothesis in the original implementation. The score calculates how much influence — contributes— has each node over each hypothesis. Originally, the sum of scores of each row resulted in the final score for a hypothesis. Therefore, the full row includes the contribution of each node. Rankers’ have been modified to individually return the contribution of each node over the hypothesis.
+SigNet’s functions have been enhanced by overriding some functions. The three main rankers lambda, power weights and exponential weights [Suppl. Methods] return a score for each hypothesis in the original implementation. The score calculates how much influence — contributes— has each node over each hypothesis. Originally, the sum of scores of each row resulted in the final score for a hypothesis. Therefore, the full row includes the contribution of each node. Rankers’ have been modified to individually return the contribution of each node over the hypothesis.
 \\
 
 SigNet’s original algorithm result consists of a ranked list of the full network where we have URs (Table 2), predicting the top genes responsible for the inputted DE profile. The final score is based on the reachability of each node within the causal graph, and its consensus score.
