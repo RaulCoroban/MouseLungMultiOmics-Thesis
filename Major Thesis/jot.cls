@@ -113,7 +113,7 @@
 \newcommand\jot@firstpage{\getpagerefnumber{jot:firstpage}}
 \newcommand\jot@lastpage{\getpagerefnumber{jot:lastpage}}
 \newcommand\jot@runningcitation{%
-    \href{\jot@doiorurl}{\jot@journalname
+    %\href{\jot@doiorurl}{%\jot@journalname
         \ifx\jot@volume\@empty \else , vol.~\jot@volume\fi
         \ifx\jot@number\@empty \else , no.~\jot@number\fi
         \ifx\jot@year\@empty \else , \jot@year\fi}}
