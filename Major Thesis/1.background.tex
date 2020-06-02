@@ -38,6 +38,7 @@ The algorithms have been developed outside of this work. We have built the pipel
 \\
 
 \subsubsection{Signalling Network - SigNet}
+\label{back:section:signet}
 Signalling Network (SigNet) \cite{Jaeger2014CausalCancer} is an inference method based on transcriptional networks. It allows us to find signals on dysregulated gene profiles, providing a ranked list of candidates for inspection. 
 \\
 
@@ -78,10 +79,10 @@ By default, the over-connectivity analysis measures the connectivity significanc
 Each algorithm has undergone assesments in their own orginal studies. In this work we aim to benchmark our tool which includes these algorithms by following the same procedures and resources as the original projects. 
 \\
 
-Our pipeline tool relies on the online available datasets to retrieve information for the gold standard constructions. More specifically, we use CMAP2 lab-extracted data, TTD dataset and CBDD Pathway recovery. See \ref{section:methods} for full references and understanding of the build.
+Our pipeline tool relies on the online available datasets to retrieve information for the gold standard constructions. More specifically, we use CMAP2 lab-extracted data, TTD (Therapeutic Target Database) dataset and CBDD () Pathway recovery. See \ref{section:methods} for full references and understanding of the build.
 \\
 
-The gold standard manufacture is a necessary step because any existing one adapts to our needs. Nevertheless, its definition is strictly relational, i.e. only databases that have a matching part (drug ids, gene ids, etc.) are put together.
+The gold standard manufacture gathers several resources: On one side, we retrieve data from databases and apply a relational rule, i.e. we match drug ids or other internal identifiers and construct a whole local database. On the other side, we use support tools to improve the match in case of format disparity, such as drug/gene "synonym seeker" or drug CID-translator.
 \\
 
 Based on accuracy metrics we derive which are the most reliable algorithms for an insight analysis. As the results we produce come from predictions, checking their reliability is as simple as contrasting test cases’ outcomes against a gold standard.

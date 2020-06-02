@@ -7,7 +7,7 @@ This information is available in a public repository \href{https://github.com/ph
 
 \subsection{External databases}
 \label{section:external-db}
-Computational Biology methods for Drug Discovery or \href{https://genestack.com/news/blog/case-study-clarivate-analytics/}{CBDD} \footnote{Clarivite Analytics: \url{https://genestack.com/news/blog/case-study-clarivate-analytics/}} database (Clarivate Analytics, Boston, MA) provides R-language API interface for information gathering. Interaction networks, gene full description and full pathways used in this work have been retrieved via R scripting access to the API.
+Computational Biology methods for Drug Discovery or \href{https://genestack.com/news/blog/case-study-clarivate-analytics/}{CBDD} \footnote{Clarivate Analytics: \url{https://genestack.com/news/blog/case-study-clarivate-analytics/}} database (Clarivate Analytics, Boston, MA) provides R-language API interface for information gathering. Interaction networks, gene full description and full pathways used in this work have been retrieved via R scripting access to the API.
 \\
 
 Assessing package’s components accuracy relies on CMAP2 lab-extracted data (Connectivity Map v.2 - The Broad Institute of MIT and Harvard in Cambridge, Massachusetts) \cite{Subramanian2017AProfiles} and TTD dataset (Therapeutic Target Database) \cite{Wang2020TherapeuticTherapeutics}.
@@ -15,7 +15,7 @@ Both resources are open source and available online.
 \\
 
 \subsection{Package structure}
-OMICS System Interpretation for R (\textit{omicssir}) package is built under the 3.5.1 version of RStudio. It is assembled in 5 modules or \textit{Cores}:
+As part of this work, we have built the R OMICS System Interpretation for R (\textit{omicssir}) package under the 3.5.1 version of RStudio. It is assembled in 5 modules or \textit{Cores}:
 \\
 
 \begin{itemize}
@@ -77,7 +77,7 @@ N & 1723       & 1         & 0         & 136         & FALSE        & …       
 \label{tbl:signet_output}
 \end{table}
 
-SigNet’s functions have been enhanced by overriding some functions. The three main rankers lambda, power weights and exponential weights [Suppl. Methods] return a score for each hypothesis in the original implementation. The score calculates how much influence — contributes— has each node over each hypothesis. Originally, the sum of scores of each row resulted in the final score for a hypothesis. Therefore, the full row includes the contribution of each node. Rankers’ have been modified to individually return the contribution of each node over the hypothesis.
+SigNet’s functions have been enhanced by overriding some functions. The three main rankers lambda, power weights and exponential weights [Suppl. Methods] return a score for each hypothesis in the original implementation. The score calculates how much contribution has each node over each hypothesis. Originally, the sum of scores of each row resulted in the final score for a hypothesis. Therefore, the full row includes the contribution of each node. Rankers’ have been modified to individually return the contribution of each node over the hypothesis.
 \\
 
 SigNet’s original algorithm result consists of a ranked list of the full network where we have URs (Table 2), predicting the top genes responsible for the inputted DE profile. The final score is based on the reachability of each node within the causal graph, and its consensus score.
@@ -147,9 +147,6 @@ Then, we programmatically gather the drug-target relation knowledge from the TTD
 Last, we perform the assessment. Scoring SigNet is done by creating \textit{cutting thresholds}. SigNet ranks the full reachable network, therefore all the reachable genes are present in the result. Since both the activation (+) and repression (-) instances are present in the ranking, we consider only the top ranked one for the scoring, based on the fact that the gene has been identified regardless its influence.
 \\
 
-Cropping the top part of the result iteratively (by default, from 1 to 46.000 at a 1000 step) and comparing it to the gold standard allows the visualization of a progression, similar to a ROC-like plot (Figure).
-\\
-
 \subsubsection{Differential Expression Sub-Network Analysis - DES-NA Component}
 
 This module focuses on constructing de novo sub-networks based on the input. Their approach differs due to the format of the input, although the aim stays the same. DEGAS and DIAMOnD algorithms belong to this Component.
@@ -164,10 +161,10 @@ The contrasts available in the dat file also include timepoints. Per each contra
 \label{section:desna-o}
 Both DEGAS and DIAMOnD first perform checks for nodes and network mismatch to avoid NULL results. They take an interaction network to base calculations on, since their de novo technique requires existing curated interactions from MetaCore.
 
-For DEGAS, k is the parameter that requires most of the time to calculate. The Operative Core has side functions to estimate this parameter by using greedy search, i.e. setting the upper and lower bounds we accept and iterating on each. The performance of the estimator is increased due to the intrinsic heuristics of DEGAS (ExpandingGreedy by default) which, although they depend on k value, ensure termination. Based on experimental tries, we always set k to at least l+1. 
-On the other hand, l parameter is set by default in literature to 20\% of the number of cases available in the matrix excluding controls.
+For DEGAS, K is the parameter that requires most of the time to calculate. The Operative Core has side functions to estimate this parameter by using greedy search, i.e. setting the upper and lower bounds we accept and iterating on each. The performance of the estimator is increased due to the intrinsic heuristics of DEGAS (ExpandingGreedy by default) which, although they depend on K value, ensure termination. Based on experimental tries, we always set k to at least l+1. 
+On the other hand, L parameter is set by default in literature to 20\% of the number of cases available in the matrix excluding controls.
 
-DIAMOnD iterates n times over each seed. All parameters are set to default, and n is set to 200, as in literature. We aim to build a network based on p-value significance, the method for connectivity analysis is automatically and internally set to over-connectivity search.
+DIAMOnD iterates N times over each seed. All parameters are set to default, and N is set to 200, as in literature. We aim to build a network based on p-value significance, the method for connectivity analysis is automatically and internally set to over-connectivity search.
 
 \paragraph{Analysis Core}
 The amount of subnetwork generations delivered varies depending on the input. Since each subnetwork has a confidence score (from 0 to 1, being 1 the highest confidence) and a p-value, we filter down the list of results using a score of 0.5 and p-value of 0.5.

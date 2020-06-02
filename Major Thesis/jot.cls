@@ -49,7 +49,7 @@
 \newcommand\jot@doijournalprefix{10.5381}
 \newcommand\jot@articledoiaddress{\jot@doiderefaddress\jot@doi}
 \newcommand\jot@journaldoiaddress{\jot@doiderefaddress\jot@journaldoi} % not used
-\newcommand\jot@journalname{Journal of Object Technology}
+\newcommand\jot@journalname{}
 \newcommand\jot@journaladdress{http://www.jot.fm/}
 \newcommand{\jot@cclicenseurl}{http://creativecommons.org/licenses/by/4.0/}
 \newcommand{\jot@publisher}{AITO --- Association Internationale pour les Technologies Objets}
@@ -450,8 +450,8 @@
                     % \raisebox{.8ex-.5\height}{\includegraphics[height=.8\baselineskip]{jot-umlsquare}}\quad
                     \null\rmfamily\caps\jot@journalname}\\
                 \smallskip
-                \small\sffamily Published by \jot@publisher\\
-                \url{\jot@journaladdress}
+                %\small\sffamily Published by \jot@publisher\\
+                %\url{\jot@journaladdress}
                 }}}}}%
     \null
     \vskip 3em%
